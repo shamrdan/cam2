@@ -1,26 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { render } from 'react-dom';
+
 
 
 export default function App() {
-  state = {
-    search: '',
-  };
-
-  updateSearch = search => {
-    this.setState({ search });
-  };
-
+  
   
     
   return (
     <View style={styles.container}>
-    <SearchBar
-    placeholder="Type Here..."
-    onChangeText={this.updateSearch}
-   
-  />
+    <Text>Shehab Khalid</Text>
     </View>
   );
 
