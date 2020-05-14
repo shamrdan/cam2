@@ -41,7 +41,7 @@ const photo = () => {
                     : Camera.Constants.Type.back
                 );
               }}>
-              <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Flip </Text>
+              <Text style={{ fontSize: 20, marginBottom: 10, color: 'white' }}> Flip </Text>
             </TouchableOpacity>
           </View>
         </Camera>
