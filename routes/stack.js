@@ -1,18 +1,18 @@
-import  {createStackNavigator}  from 'react-navigation-stack'
-import {createAppContainer} from 'react-navigation'
-import SearchScreen from  '../screens/search'
-import PhotoScreen  from '../screens/photo'
+import { createStackNavigator } from 'react-navigation-stack'
+import { createAppContainer } from 'react-navigation'
+import SearchScreen from '../screens/search'
+import PhotoScreen from '../screens/photo'
 const screens = {
 
-    Search:{
-        screen:SearchScreen
+    Search: {
+        screen: SearchScreen
     },
-    Photo:{
-        screen:PhotoScreen
-    }
+    Photo: {
+        screen: PhotoScreen
+    },
 
 }
 
-const Stack  =  createStackNavigator(screens);
+const Stack = createStackNavigator(screens);
 
 export default createAppContainer(Stack);
