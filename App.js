@@ -6,12 +6,12 @@ import { AppRegistry } from 'react-native';
 import { ApolloClient } from 'apollo-client';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
+const gql = require('graphql-tag')
 
 
-const httpLink =  new HttpLink({
-  uri: 'http://3.121.231.129/graphql',
-});
+const { createUploadLink } = require('apollo-upload-client')
+
+
 const defaultOptions= {
   watchQuery: {
     fetchPolicy: 'no-cache',
@@ -25,12 +25,27 @@ const defaultOptions= {
 
 
 const client = new ApolloClient({
-  link: httpLink,
+  link: createUploadLink({uri:'http://3.121.231.129/graphql'}),
   cache: new InMemoryCache(),
-  defaultOptions
+ 
 });
-export default function App()
+client.mutate
+
+
+ 
+export default  function App()
 {
+  // try {
+  //   const result = await Expo.Google.logInAsync({
+  //     androidClientId:
+  //       "958107754062-7k7462lh98jto3u4cgthcm9f31jbikmv.apps.googleusercontent.com",
+  //     //iosClientId: YOUR_CLIENT_ID_HERE,  <-- if you use iOS
+  //     scopes: ["profile", "email"]
+  //   })
+  // }
+  //   catch (e) {
+  //     console.log("error", e)
+  //   }
 
 
 

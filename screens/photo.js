@@ -1,18 +1,29 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Text, View, TouchableOpacity, Modal, Image, Button } from 'react-native';
 import { Camera } from 'expo-camera';
-import { SafeAreaView } from 'react-native-safe-area-context';
+const { useMutation } = require('@apollo/react-hooks');
+const gql = require('graphql-tag');
 import { FontAwesome } from '@expo/vector-icons';
-const photo = () =>
+
+
+const ImageUpload = gql`
+  mutation($file: Upload) {
+    uploadImage(image: $file) 
+  }
+`;
+const photo = (item) =>
 {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const camRef = useRef(null);
   const [capturedPhoto, setCapturedPhoto] = useState(null);
   const [open, setOpen] = useState(false);
-  const [wait,setWait] =  useState(false)
+  const [wait, setWait] = useState(false)
+  const [upload] = useMutation(ImageUpload);
   useEffect(() =>
   {
+
+   
     (async () =>
     {
       const { status } = await Camera.requestPermissionsAsync();
@@ -30,18 +41,20 @@ const photo = () =>
   }
   async function takePicture()
   {
-    console.log('pressed')
+
     if (camRef)
     {
       setWait(true)
-      const data = await camRef.current.takePictureAsync();
+      const data = await camRef.current.takePictureAsync({ quality:0.2 });
       setCapturedPhoto(data.uri);
+
       setWait(false)
       setOpen(true);
-      console.log(data);
+
     }
 
   }
+
 
   return (
     <View style={{ flex: 1 }}>
@@ -51,11 +64,11 @@ const photo = () =>
 
       </Camera>
 
-      
-      <TouchableOpacity disabled={wait} style={{ justifyContent: 'center', alignItems: 'center',  backgroundColor: "#121212"  , margin: 20, borderRadius: 10, height: 50 }} onPress={takePicture} >
+
+      <TouchableOpacity disabled={wait} style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: "#121212", margin: 20, borderRadius: 10, height: 50 }} onPress={takePicture} >
 
 
-        <FontAwesome name={wait?'spinner':'camera'} size={23} color= "#FFF"   />
+        <FontAwesome name={wait ? 'spinner' : 'camera'} size={23} color="#FFF" />
 
       </TouchableOpacity>
 
@@ -71,17 +84,61 @@ const photo = () =>
 
 
         <View >
-          <View style={{ flexDirection:'row'}}>
-              <TouchableOpacity style={{ margin: 10 }} onPress={() => setOpen(false)}>
-                <FontAwesome name="close" size={50} color="#FF0000" />
-              </TouchableOpacity>
-              <TouchableOpacity style={{ margin: 10 }} onPress={() => setOpen(false)}>
-                <FontAwesome name="upload" size={50} color="#FF0000" />
-              </TouchableOpacity>
-            </View>
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity disabled={wait} style={{ margin: 10 }} onPress={() => setOpen(false)}>
+              <FontAwesome name="close" size={50} color= {wait?"#FF0000":"#000000"}  />
+            </TouchableOpacity>
+
+            <TouchableOpacity disabled={wait} style={{ margin: 10 }} onPress={async () =>
+            {
+
+              let uri = capturedPhoto
+
+              let apiUrl = 'http://3.121.231.129/upload';
+
+             
+
+            
+              let name = item.navigation.state.params.name
+              let id = item.navigation.state.params._id
+              let uriParts = uri.split('.');
+              let fileType = uriParts[uriParts.length - 1];
+
+              let formData = new FormData();
+             
+              formData.append('upload', {
+                uri,
+                name: `photo.${fileType}`,
+                type: `image/${fileType}`,
+              });
+
+              let options = {
+                method: 'POST',
+                body: formData,
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'multipart/form-data',
+                  name,
+                  id
+
+                },
+              };
+
+              setWait(true)
+             let result =  await fetch(apiUrl, options);
+             console.log(result.status)
+             setWait(false)
+             setOpen(false)
+            
+              
+
+            }}>
+              <FontAwesome name="upload" size={50} color= {wait?"#FF0000":"#000000"}  />
+            </TouchableOpacity>
+          </View>
 
           <Image
-            style={{  marginLeft:'auto', marginRight:'auto',  width: '95%', height: '90%', borderRadius: 20 }}
+            style={{ marginLeft: 'auto', marginRight: 'auto', width: '95%', height: '90%', borderRadius: 20 }}
             source={{ uri: capturedPhoto }}
           />
 
