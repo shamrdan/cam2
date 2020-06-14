@@ -94,7 +94,7 @@ const photo = (item) =>
 
               let uri = capturedPhoto
 
-              let apiUrl = 'http://3.121.231.129/upload';
+              let apiUrl = 'https://drnasefbackend.smartclinic.cf/upload';
 
              
 
