@@ -25,7 +25,7 @@ const defaultOptions= {
 
 
 const client = new ApolloClient({
-  link: createUploadLink({uri:'http://3.121.231.129/graphql'}),
+  link: createUploadLink({uri:'https://drnasefbackend.smartclinic.cf/graphql'}),
   cache: new InMemoryCache(),
  
 });
