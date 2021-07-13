@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Scanner",
-    "slug": "Scanner",
+    "name": "ScannerDrNasef2",
+    "slug": "ScannerDrNasef2",
     "platforms": [
-      "ios",
-      "android",
-      "web"
+     
+      "android"
+
     ],
     "version": "1.0.0",
     "orientation": "portrait",
@@ -23,6 +23,10 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "smart.clinic.drNassef",
+      "versionCode": 1
     }
   }
 }

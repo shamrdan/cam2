@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native'
 import { useQuery } from '@apollo/react-hooks';
-import Autocomplete from 'react-native-autocomplete-input'
+
 
 import gql from 'graphql-tag'
-
+import Autocomplete from 'react-native-autocomplete-input'
 const GQL_SEARCH = gql`
 query search($patientName:String){
   search(name:$patientName) {
@@ -33,11 +33,14 @@ const search = ({ navigation }) =>
         }
     })
 
+
     return (
         <View style={styles.autocompleteContainer}>
+        
+
             <Autocomplete
 
-                style={styles.searchText}
+               style={styles.searchText}
                 data={options}
                 placeholder="Patient Name"
                 defaultValue=""
@@ -86,6 +89,7 @@ const styles = StyleSheet.create({
     }
 
 
+    
 
 
 })
